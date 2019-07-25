@@ -1,11 +1,13 @@
 # yaoxfly-request
 
 #### 介绍
-基于axios和fly等 封装的一个请求库 支持restFul接口  支持get post patch put delete 等请求   支持axios和fly.js的切换 可进行拦截处理  可自行设置参数 ,方法等
+
+基于 axios 和 fly 等 封装的一个请求库 支持 restFul 接口 支持 get post patch put delete 等请求 支持 axios 和 fly.js 的切换 可进行拦截处理 可自行设置参数 ,方法等
 
 #### 软件架构
-软件架构说明
 
+软件架构说明
+11
 
 #### 安装教程
 
@@ -26,10 +28,9 @@
 3. 提交代码
 4. 新建 Pull Request
 
-
 #### 码云特技
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
+1. 使用 Readme_XXX.md 来支持不同的语言，例如 Readme_en.md, Readme_zh.md
 2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
 3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
 4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
