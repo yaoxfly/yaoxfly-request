@@ -10,12 +10,13 @@ npm i yaoxfly-request
 
 #### 使用说明
 
-####1 插件配置
+#### 1 插件配置
+
 在 src(源代码)文件夹新建 request 文件夹并在里面建立 index.js 文件,参考配置方案稍后详见。
 
-####2 restFul api 请求
+#### 2 restFul api 请求
 
-#####get 请求
+##### get 请求
 
 ```
  this.$yxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
@@ -23,7 +24,7 @@ npm i yaoxfly-request
  })
 ```
 
-#####post 请求
+##### post 请求
 
 ```
  this.$yxRequest.put(url,param,isLoading).then(res => {
@@ -32,7 +33,7 @@ npm i yaoxfly-request
 
 ```
 
-#####patch 请求
+##### patch 请求
 
 ```
  this.$yxRequest.patch(url,param).then(res => {
@@ -40,7 +41,7 @@ npm i yaoxfly-request
  })
 ```
 
-#####put 请求
+##### put 请求
 
 ```
  this.$yxRequest.put(url,param).then(res => {
@@ -49,7 +50,7 @@ npm i yaoxfly-request
 
 ```
 
-#####delete 请求
+##### delete 请求
 
 ```
  this.$yxRequest.delete(url,param).then(res => {
@@ -57,7 +58,7 @@ npm i yaoxfly-request
  })
 ```
 
-#####全部请求 可传类型请求
+##### 全部请求 可传类型请求
 
 ```
  this.$yxRequest.requests(url,param,type,isLoading).then(res => {
@@ -65,7 +66,8 @@ npm i yaoxfly-request
  })
 ```
 
-####3 方法参数说明
+#### 3 方法参数说明
+
 在 this.\$yxRequest 可调用方法的参数说明
 | 参数 |类型| 说明 |
 |:---:| :--: | :----: |
@@ -74,7 +76,7 @@ npm i yaoxfly-request
 | isLoading| Boolean| 当前请求是否开启 loading 默认是 true|
 |type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置|
 
-####4 request/index.js 配置说明
+#### 4 request/index.js 配置说明
 
 ##### 在 request/index.js 文件里引入 yaoxfly-request
 
@@ -85,7 +87,7 @@ export default new yxRequest({
 })
 ```
 
-#####在 main.js 文件里
+##### 在 main.js 文件里
 
 ```
 import yxRequest from './request'
@@ -97,7 +99,7 @@ new Vue({
   }).$mount('#app')
 ```
 
-######注意 : 导入名一定要 yxRequest 不可更改
+###### 注意 : 导入名一定要 yxRequest 不可更改
 
 ##### 配置参数
 
@@ -155,9 +157,9 @@ accessControl: {
 
 ```
 
-#####注意:以上不打\*号的不是必须配置可自行决定是否配置
+##### 注意:以上不打\*号的不是必须配置可自行决定是否配置
 
-####5 request/index.js 配置参考
+#### 5 request/index.js 配置参考
 
 1. 需要下载 flyio/axios 、 qs 、 elementUi
 2. 以下 loading 有用到 elementUi 可自行修改
@@ -262,7 +264,7 @@ export default new yxRequest({
   })
 ```
 
-#####注意:当前 loading 使用的是 elementUi 的动画可自行修改
+##### 注意:当前 loading 使用的是 elementUi 的动画可自行修改
 
 #### 参与贡献
 
