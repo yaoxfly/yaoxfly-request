@@ -18,5 +18,14 @@ module.exports = {
   productionSourceMap: false,
   chainWebpack: config => {
     config.resolve.alias.set('@', resolve('examples'))
+  },
+  // 改用cdn 加快速度
+  configureWebpack: {
+    externals: {
+      vue: 'Vue',
+      vuex: 'Vuex',
+      'vue-router': 'VueRouter',
+      axios: 'axios'
+    }
   }
 }

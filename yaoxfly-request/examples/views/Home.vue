@@ -14,6 +14,12 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+
+  created () {
+    this.$yxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
+      console.log(res)
+    })
   }
 }
 </script>
