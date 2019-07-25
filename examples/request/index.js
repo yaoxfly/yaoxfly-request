@@ -72,6 +72,9 @@ export default new yxRequest({
         $this.$message(err)
       }, 200)
       // setTimeout(() => {
+      //   window.location.href = 'http://www.baidu.com'
+      // }, 2000)
+      // setTimeout(() => {
       //   let route = document.location //当前前端的路由
       //   let baseURL = //后端的接口地址,域名
       //     process.env.NODE_ENV === 'development'
@@ -83,21 +86,26 @@ export default new yxRequest({
 
     //不成功的提示
     notSuccessful: (code, err) => {
-      if (code !== 0 && code !== -6 && code !== -1) {
-        setTimeout(() => {
-          $this.$message(err)
-        }, 200)
-        //0 成功 -6有继续操作的错误提示 -1 登录
-        // setTimeout(() => {
-        //   //主要是uni 关闭loading 会把showToast也关闭掉,所以要给点延时防止被瞬时关闭 延时少于200不生效
-        //   uni.showToast({
-        //     title: err,
-        //     icon: 'none',
-        //     mask: true,
-        //     duration: 2000 //提示的延迟时间，单位毫秒，默认：1500
-        //   })
-        // }, 200)
+      //0 成功 -6有继续操作的错误提示 -1 登录
+      switch (code) {
+        case 0:
+        case -6:
+        case -1:
+          break
+        default:
+          setTimeout(() => {
+            $this.$message(err)
+          }, 200)
       }
+      // setTimeout(() => {
+      //   //主要是uni 关闭loading 会把showToast也关闭掉,所以要给点延时防止被瞬时关闭 延时少于200不生效
+      //   uni.showToast({
+      //     title: err,
+      //     icon: 'none',
+      //     mask: true,
+      //     duration: 2000 //提示的延迟时间，单位毫秒，默认：1500
+      //   })
+      // }, 200)
     }
   },
 

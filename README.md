@@ -231,16 +231,21 @@ export default new yxRequest({
 
     //不成功的提示
     notSuccessful: (code, err) => {
-       //0 成功 -6有继续操作的错误提示 -1 未登录
-       if (code !== 0 && code !== -6 && code !== -1) {
+      //0 成功 -6有继续操作的错误提示 -1 登录
+      switch (code) {
+        case 0:
+        case -6:
+        case -1:
+          break
+        default:
           setTimeout(() => {
-             $this.$message(err)
+            $this.$message(err)
           }, 200)
-        }
-      },
+       }
+     },
    }
 
-     //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证
+  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证
     accessControl: {
       routeValidate: () => {
         let pages = getCurrentPages() //获取加载过的路由
