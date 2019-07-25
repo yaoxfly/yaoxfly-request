@@ -196,11 +196,11 @@ class Request {
   /**  请求类 可用post或者get方法
    * @param {String} url api接口地址
    * @param {Object} params 传到后台的参数
-   * @param {Boolean} loading 是否开启loading动画
    * @param {String} type 是get 还是post 请求
+   * @param {Boolean} loading 是否开启loading动画
    * @return {Object} 返回请求结果
    */
-  request = (url, params = {}, loading = true, type = 'post') => {
+  requests = (url, params = {}, type = 'post', loading = true) => {
     this.loading = loading
     return new Promise((resolve, reject) => {
       this.request

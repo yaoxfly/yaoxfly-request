@@ -17,7 +17,7 @@ export default {
   },
 
   created () {
-    this.$yxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
+    this.$yxRequest.requests('test/test', { name: '1', age: '1' }, 'put', false).then(res => {
       console.log(res)
     })
   }

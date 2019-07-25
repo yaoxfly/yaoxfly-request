@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Fly from 'flyio/dist/npm/fly.js'
 import axios from 'axios'
 import qs from 'qs'
-import yxRequest from '../../lib/'
+import yxRequest from '../../lib'
 const $this = new Vue() //实例化vue,普通的this用不了
 let loading = '' //动画
 
@@ -37,7 +37,6 @@ export default new yxRequest({
     isLoading: true, //是否开启动画
     limitTime: 200, // 接口请求在xxxms内完成则不展示loading
     loadingShow: () => {
-     
       loading = $this.$loading({
         lock: false,
         background: 'rgba(0, 0, 0, 0.1)'
