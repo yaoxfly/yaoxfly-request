@@ -1,6 +1,6 @@
 {
   "name": "yaoxfly-request",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "ajax请求插件",
   "main": "request/yaoxfly-request.umd.min.js",
   "files": [
