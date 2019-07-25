@@ -1732,10 +1732,10 @@ function () {
 
     _defineProperty(this, "loading", true);
 
-    _defineProperty(this, "request", function (url) {
+    _defineProperty(this, "requests", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'post';
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
+      var loading = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         _this.request.request(url, _this.qs ? _this.qs.stringify(params) : params, {
@@ -1997,8 +1997,8 @@ function () {
     /**  请求类 可用post或者get方法
      * @param {String} url api接口地址
      * @param {Object} params 传到后台的参数
-     * @param {Boolean} loading 是否开启loading动画
      * @param {String} type 是get 还是post 请求
+     * @param {Boolean} loading 是否开启loading动画
      * @return {Object} 返回请求结果
      */
 

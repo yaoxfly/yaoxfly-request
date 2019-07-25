@@ -2,11 +2,7 @@
 
 #### 介绍
 
-基于 axios 和 fly 等 封装的一个请求库 支持 restFul 接口 支持 get post patch put delete 等请求 支持 axios 和 fly.js 的切换 可进行拦截处理 可自行设置参数 ,方法等
-
-#### 软件架构
-
-基于 vue
+基于 axios 和 fly 等 封装的一个请求库 支持 restFul 接口 支持 get post patch put delete 等请求 支持 axios 和 fly.js 库的切换 可进行拦截处理 自动弹出 http 请求错误、请求异常信息,未登录拦截等,可自行设置参数,方法等。
 
 #### 安装教程
 
@@ -15,7 +11,7 @@ npm i yaoxfly-request
 #### 使用说明
 
 ####1 插件配置
-在 src(源代码)文件夹新建 request 文件夹并在里面建立 index.js 文件,参考配置方案稍后详见。也可以直接在 node_modules/yaoxfly-request/examples/request/找到文件并复制放在工程里。
+在 src(源代码)文件夹新建 request 文件夹并在里面建立 index.js 文件,参考配置方案稍后详见。
 
 ####2 restFul api 请求
 
@@ -85,22 +81,23 @@ npm i yaoxfly-request
 ```
 import yxRequest from 'yaoxfly-request'
 Vue.use(yxRequest)
+export default new yxRequest({
+})
 ```
 
 #####在 main.js 文件里
 
 ```
 import yxRequest from './request'
-
 new Vue({
-router,
-store,
-yxRequest, //当前名字不可更改 一定要yxRequest
-render: h => h(App)
-}).\$mount('#app')
+  router,
+  store,
+  yxRequest, //当前名字不可更改 一定要yxRequest
+  render: h => h(App)
+  }).$mount('#app')
 ```
 
-######注意 : 导入时 yxRequest 不可更改
+######注意 : 导入名一定要 yxRequest 不可更改
 
 ##### 配置参数
 
@@ -131,8 +128,6 @@ loading: {
   }
 
 ```
-
-#####注意:当前 loading 使用的是 elementUi 的动画可自行修改
 
 3. 请求错误 resError 配置 \*
 
@@ -261,6 +256,8 @@ export default new yxRequest({
       }
   })
 ```
+
+#####注意:当前 loading 使用的是 elementUi 的动画可自行修改
 
 #### 参与贡献
 
