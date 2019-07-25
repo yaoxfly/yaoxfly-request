@@ -1,11 +1,23 @@
 {
   "name": "yaoxfly-request",
   "version": "0.1.0",
-  "private": true,
+  "description": "ajax请求插件",
+  "main": "request/yaoxfly-request.umd.min.js",
+  "files": [
+    "request"
+  ],
+  "private": false,
+  "license": "MIT",
+  "author": "yaoxfly",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name yaoxfly-request --dest request lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/yaoxfly/yaoxfly-request.git"
   },
   "dependencies": {
     "core-js": "^2.6.5",
