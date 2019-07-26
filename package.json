@@ -1,6 +1,6 @@
 {
   "name": "yaoxfly-request",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "ajax请求插件",
   "main": "request/yaoxfly-request.umd.min.js",
   "files": [
@@ -14,7 +14,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name yaoxfly-request --dest request lib/index.js",
-    "publish": "git add .; npm version patch"
+    "publish": "npm version patch"
   },
   "repository": {
     "type": "git",
