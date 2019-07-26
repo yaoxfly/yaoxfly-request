@@ -2,7 +2,7 @@
 
 #### 介绍
 
-基于 axios 和 fly 等 封装的一个请求库 支持 restFul 接口 支持 get post patch put delete 等请求 支持 axios 和 fly.js 库的切换 可进行拦截处理 自动弹出 http 请求错误、请求异常信息,未登录拦截等,可自行设置参数,方法等。
+基于 axios/flyio 封装的一个请求库,支持 web、app、小程序(使用 fiyio 做请求)等 http 请求; 支持 restFul 接口 可发送,get post patch put delete 等请求; 支持 axios 和 fly.js 库的切换可进行拦截处理,自动弹出, http 请求错误、请求异常信息,未登录拦截等,具体实现通过配置参数、方法等实现。
 
 #### 安装教程
 
@@ -19,7 +19,7 @@ npm i yaoxfly-request
 ##### get 请求
 
 ```
- this.$yxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
+ this.$YxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
  console.log(res)
  })
 ```
@@ -27,7 +27,7 @@ npm i yaoxfly-request
 ##### post 请求
 
 ```
- this.$yxRequest.put(url,param,isLoading).then(res => {
+ this.$YxRequest.put(url,param,isLoading).then(res => {
  console.log(res)
  })
 
@@ -36,7 +36,7 @@ npm i yaoxfly-request
 ##### patch 请求
 
 ```
- this.$yxRequest.patch(url,param).then(res => {
+ this.$YxRequest.patch(url,param).then(res => {
  console.log(res)
  })
 ```
@@ -44,7 +44,7 @@ npm i yaoxfly-request
 ##### put 请求
 
 ```
- this.$yxRequest.put(url,param).then(res => {
+ this.$YxRequest.put(url,param).then(res => {
  console.log(res)
  })
 
@@ -53,7 +53,7 @@ npm i yaoxfly-request
 ##### delete 请求
 
 ```
- this.$yxRequest.delete(url,param).then(res => {
+ this.$YxRequest.delete(url,param).then(res => {
  console.log(res)
  })
 ```
@@ -61,14 +61,14 @@ npm i yaoxfly-request
 ##### 全部请求 可传类型请求
 
 ```
- this.$yxRequest.requests(url,param,type,isLoading).then(res => {
+ this.$YxRequest.requests(url,param,type,isLoading).then(res => {
  console.log(res)
  })
 ```
 
 #### 3 方法参数说明
 
-在 this.\$yxRequest 可调用方法的参数说明
+在 this.\$YxRequest 可调用的方法的里参数说明
 | 参数 |类型| 说明 |
 |:---:| :--: | :----: |
 | url | String |api 地址 |
@@ -81,25 +81,24 @@ npm i yaoxfly-request
 ##### 在 request/index.js 文件里引入 yaoxfly-request
 
 ```
-import yxRequest from 'yaoxfly-request'
-Vue.use(yxRequest)
-export default new yxRequest({
+import YxRequest from 'yaoxfly-request'
+Vue.use(YxRequest)
+export default new YxRequest({
 })
 ```
 
 ##### 在 main.js 文件里
 
 ```
-import yxRequest from './request'
+import YxRequest from './request'
 new Vue({
   router,
   store,
-  yxRequest, //当前名字不可更改 一定要yxRequest
+  YxRequest, //当前名字不可更改 一定要YxRequest
   render: h => h(App)
   }).$mount('#app')
-```
 
-###### 注意 : 导入名一定要 yxRequest 不可更改
+```
 
 ##### 配置参数
 

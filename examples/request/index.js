@@ -3,14 +3,14 @@ import Vue from 'vue'
 import Fly from 'flyio/dist/npm/fly.js'
 import axios from 'axios'
 import qs from 'qs'
-import yxRequest from '../../lib'
+import YxRequest from '../../lib'
 const $this = new Vue() //实例化vue,普通的this用不了
 let loading = '' //动画
 
 //3.在新的实例上使用组件
-Vue.use(yxRequest)
+Vue.use(YxRequest)
 const fly = new Fly()
-export default new yxRequest({
+export default new YxRequest({
   //请求配置
   requestConfig: {
     request: fly, //请求名 flyio/axios
