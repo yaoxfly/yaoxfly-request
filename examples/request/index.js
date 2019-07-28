@@ -5,6 +5,7 @@ import axios from 'axios'
 import qs from 'qs'
 import YxRequest from '../../lib'
 const $this = new Vue() //实例化vue,普通的this用不了
+const ONLINE_DOMAN_NAME = window.location.protocol + '//' + window.location.host //协议加域名
 let loading = '' //动画
 
 //3.在新的实例上使用组件

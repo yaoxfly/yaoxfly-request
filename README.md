@@ -170,6 +170,7 @@ import qs from 'qs'
 import yxRequest from 'yaoxfly-request'
 Vue.use(yxRequest)
 const $this = new Vue() //实例化 vue,普通的 this 用不了
+const ONLINE_DOMAN_NAME = window.location.protocol + '//' + window.location.host //协议加域名
 let loading = '' //动画
 const fly = new Fly()
 export default new yxRequest({
@@ -243,14 +244,13 @@ export default new yxRequest({
           }, 200)
        }
      },
-   }
+   },
 
-  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证
+  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证 根据uni-app进行配置的要
     accessControl: {
       routeValidate: () => {
         let pages = getCurrentPages() //获取加载过的路由
         let currPage = pages[pages.length - 1] //获取当前页路由
-        console.log(currPage.route)
         switch (currPage.route) {
           case 'pages/advisory/counselor/CounselorList':
           case 'pages/advisory/counselor/CounselorInfo':
