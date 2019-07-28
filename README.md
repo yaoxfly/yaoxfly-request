@@ -246,7 +246,7 @@ export default new yxRequest({
      },
    },
 
-  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证 根据uni-app进行配置的要
+  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证 根据uni-app进行配置的 可修改或删除
     accessControl: {
       routeValidate: () => {
         let pages = getCurrentPages() //获取加载过的路由
