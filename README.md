@@ -166,7 +166,6 @@ accessControl: {
 ```
 import Vue from 'vue'
 import Fly from 'flyio/dist/npm/fly.js'
-<!-- import axios from 'axios' -->
 import qs from 'qs'
 import yxRequest from 'yaoxfly-request'
 Vue.use(yxRequest)
@@ -260,6 +259,7 @@ export default new yxRequest({
             return true
        }
       }
+    }
   })
 ```
 
