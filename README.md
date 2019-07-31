@@ -19,16 +19,24 @@ npm i yaoxfly-request
 ##### get 请求
 
 ```
- this.$YxRequest.get('test/test', { name: '1', age: '1' }).then(res => {
- console.log(res)
+ this.$YxRequest.get('test/test', { name: '1', age: '1' })
+ .then(res => {
+  console.log(res);
+ })
+ .catch(err=>{
+   console.log(err);
  })
 ```
 
 ##### post 请求
 
 ```
- this.$YxRequest.put(url,param,isLoading).then(res => {
- console.log(res)
+ this.$YxRequest.post(url,param,isLoading)
+ .then(res => {
+  console.log(res);
+ })
+ .catch(err =>{
+   console.log(err);
  })
 
 ```
@@ -36,16 +44,24 @@ npm i yaoxfly-request
 ##### patch 请求
 
 ```
- this.$YxRequest.patch(url,param).then(res => {
- console.log(res)
+ this.$YxRequest.patch(url,param,isLoading))
+ .then(res => {
+    console.log(res);
+ })
+ .catch(err =>{
+  console.log(err);
  })
 ```
 
 ##### put 请求
 
 ```
- this.$YxRequest.put(url,param).then(res => {
- console.log(res)
+ this.$YxRequest.put(url,param,isLoading))
+ .then(res => {
+    console.log(res);
+ })
+ .catch(err =>{
+    console.log(err);
  })
 
 ```
@@ -53,16 +69,24 @@ npm i yaoxfly-request
 ##### delete 请求
 
 ```
- this.$YxRequest.delete(url,param).then(res => {
- console.log(res)
+ this.$YxRequest.delete(url,param,isLoading))
+ .then(res => {
+   console.log(res);
+ })
+ .catch(err =>{
+   console.log(err);
  })
 ```
 
 ##### 全部请求 可传类型请求
 
 ```
- this.$YxRequest.requests(url,param,type,isLoading).then(res => {
- console.log(res)
+ this.$YxRequest.requests(url,param,type,isLoading)
+ .then(res => {
+     console.log(res);
+ })
+ .catch(err =>{
+   console.log(err);
  })
 ```
 
@@ -73,7 +97,7 @@ npm i yaoxfly-request
 |:---:| :--: | :----: |
 | url | String |api 地址 |
 |param | Object |后台 接收的参数 |
-| isLoading| Boolean| 当前请求是否开启 loading 默认是 true|
+| isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
 |type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置|
 
 #### 4 request/index.js 配置说明
