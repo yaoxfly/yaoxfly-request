@@ -37,7 +37,6 @@ export default new YxRequest({
     //以下消息提示要200秒的延时 不然会被提前关闭 uni-app的坑 关闭一个所有消息都关闭
     isLoading: true, //是否开启动画
     limitTime: 200, // 接口请求在xxxms内完成则不展示loading
-    compatible: 'uni-app', //防止uni-app关闭loading把消息也快速关闭,其他可不设置
     loadingShow: () => {
       loading = $this.$loading({
         lock: false,
