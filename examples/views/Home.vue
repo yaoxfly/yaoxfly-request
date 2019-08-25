@@ -18,9 +18,9 @@ export default {
 
   created () {
     console.log(this.$YxRequest)
-    this.$YxRequest.requests('test/test', { name: '1', age: '1' }, 'put', false).then(res => {
-      console.log(res)
-    })
+    // this.$YxRequest.requests('test/test', { name: '1', age: '1' }, 'put', false).then(res => {
+    //   console.log(res)
+    // })
   }
 }
 </script>
