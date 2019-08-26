@@ -14,22 +14,22 @@ const fly = new Fly()
 export default new YxRequest({
   //请求配置
   requestConfig: {
-    request: fly, //请求名 flyio/axios
-    type: 'fly', //请求类型
+    request: axios, //请求名 flyio/axios
+    type: 'axios', //请求类型
     qs: qs,
     headers: {
       token: 22221111,
       'content-Type': 'application/x-www-form-urlencoded' //php的post传输请求头一定要这个 不然报错 接收不到值
     },
     timeout: 30000,
-    // baseURL:
-    //   process.env.NODE_ENV === 'development'
-    //     ? 'http://www.yaoxfly.com/'
-    //     : ONLINE_DOMAN_NAME + '/project/ericsson/',
     baseURL:
       process.env.NODE_ENV === 'development'
-        ? 'http://www.ericssons.com'
+        ? 'http://www.yaoxfly.com/'
         : ONLINE_DOMAN_NAME + '/project/ericsson/',
+    // baseURL:
+    //   process.env.NODE_ENV === 'development'
+    //     ? 'http://www.ericssons.com'
+    //     : ONLINE_DOMAN_NAME + '/project/ericsson/',
     withCredentials: true
   },
 
