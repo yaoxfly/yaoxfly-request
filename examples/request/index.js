@@ -14,11 +14,11 @@ const fly = new Fly()
 export default new YxRequest({
   //请求配置
   requestConfig: {
-    request: axios, //请求名 flyio/axios
-    type: 'axios', //请求类型
+    request: fly, //请求名 flyio/axios
+    type: 'fly', //请求类型
     qs: qs,
     headers: {
-      token: 22221111,
+      token: '',
       'content-Type': 'application/x-www-form-urlencoded' //php的post传输请求头一定要这个 不然报错 接收不到值
     },
     timeout: 30000,
@@ -68,12 +68,11 @@ export default new YxRequest({
     },
     //登录失败提示
     notLogin: err => {
-      // console.log(err)
       setTimeout(() => {
         $this.$message(err)
       }, 200)
       // setTimeout(() => {
-      //   window.location.href = 'http://www.baidu.com'
+      // window.location.href = 'http://www.baidu.com'
       // }, 2000)
       // setTimeout(() => {
       //   let route = document.location //当前前端的路由
@@ -84,14 +83,12 @@ export default new YxRequest({
       //   window.location.href = `${baseURL}frontcommon/dockingFrontend/setUrl?url=${route}&types=1`
       // }, 1000)
     },
-
     //不成功的提示
     notSuccessful: (code, err) => {
-      //0 成功 -6有继续操作的错误提示 -1 登录
+      //0 成功 -6有继续操作的错误提示
       switch (code) {
         case 0:
         case -6:
-        case -1:
           break
         default:
           setTimeout(() => {
@@ -110,7 +107,7 @@ export default new YxRequest({
     }
   },
 
-  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证
+  //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证  可这个删除 我做了验证
   accessControl: {
     routeValidate: () => {
       return true
