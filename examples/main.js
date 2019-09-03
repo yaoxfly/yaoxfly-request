@@ -12,9 +12,10 @@ new Vue({
   YxRequest,
 
   mounted () {
-    this.$YxRequest.get('index/index/getTest', { test: 1 }).then(res => {
+    this.$YxRequest.requests('index/test', { test: [1] }, 'get').then(res => {
       console.log(res)
     })
+
     // axios
     //   .delete(
     //     'index/index/getTest',

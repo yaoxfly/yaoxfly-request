@@ -14,11 +14,11 @@ const fly = new Fly()
 export default new YxRequest({
   //请求配置
   requestConfig: {
-    request: fly, //请求名 flyio/axios
-    type: 'fly', //请求类型
+    request: axios, //请求名 flyio/axios
+    type: 'axios', //请求类型
     qs: qs,
     headers: {
-      token: '',
+      token: '1',
       'content-Type': 'application/x-www-form-urlencoded' //php的post传输请求头一定要这个 不然报错 接收不到值
     },
     timeout: 30000,
@@ -89,6 +89,7 @@ export default new YxRequest({
       switch (code) {
         case 0:
         case -6:
+        case -1: //路由验证时,不验证登录时的不弹窗
           break
         default:
           setTimeout(() => {
