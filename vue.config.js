@@ -27,12 +27,12 @@ module.exports = {
   // 改用cdn 加快速度
   configureWebpack: config => {
     Object.assign(config, {
-      // externals: {
-      //   vue: 'Vue',
-      //   vuex: 'Vuex',
-      //   'vue-router': 'VueRouter',
-      //   axios: 'axios'
-      // }
+      externals: {
+        vue: 'Vue',
+        vuex: 'Vuex',
+        'vue-router': 'VueRouter',
+        axios: 'axios'
+      }
     })
     if (isProduction) {
       config.plugins.push(
