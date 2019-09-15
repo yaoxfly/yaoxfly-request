@@ -1,9 +1,11 @@
 {
   "name": "yaoxfly-request",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "ajax请求插件",
   "main": "request/yaoxfly-request.umd.min.js",
-  "files": ["request"],
+  "files": [
+    "request"
+  ],
   "private": false,
   "license": "MIT",
   "author": "yaoxfly",
