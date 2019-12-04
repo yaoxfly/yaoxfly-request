@@ -1717,6 +1717,7 @@ function () {
   //请求loading的定时器
   //请求
   //转换的类
+  //请求库类型
   function Request() {
     var _this = this;
 
@@ -1732,12 +1733,31 @@ function () {
 
     _defineProperty(this, "loading", true);
 
+    _defineProperty(this, "type", '');
+
     _defineProperty(this, "requests", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
       var loading = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
+        if (_this.type === 'axios') {
+          _this.request.request({
+            method: type,
+            url: url,
+            params: params,
+            paramsSerializer: function paramsSerializer(params) {
+              return _this.qs ? _this.qs.stringify(params) : params;
+            }
+          }).then(function (response) {
+            resolve(response);
+          }).catch(function (error) {
+            reject(error);
+          });
+
+          return;
+        }
+
         _this.request.request(url, _this.qs ? _this.qs.stringify(params) : params, {
           method: type
         }).then(function (response) {
@@ -1753,7 +1773,20 @@ function () {
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        _this.request.get(url, _this.qs ? _this.qs.stringify(params) : params).then(function (response) {
+        var arg = '';
+
+        if (_this.type === 'axios') {
+          arg = {
+            params: params,
+            paramsSerializer: function paramsSerializer(params) {
+              return _this.qs ? _this.qs.stringify(params) : params;
+            }
+          };
+        } else {
+          arg = _this.qs ? _this.qs.stringify(params) : params;
+        }
+
+        _this.request.get(url, arg).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1805,7 +1838,20 @@ function () {
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        _this.request.delete(url, _this.qs ? _this.qs.stringify(params) : params).then(function (response) {
+        var arg = '';
+
+        if (_this.type === 'axios') {
+          arg = {
+            params: params,
+            paramsSerializer: function paramsSerializer(params) {
+              return _this.qs ? _this.qs.stringify(params) : params;
+            }
+          };
+        } else {
+          arg = _this.qs ? _this.qs.stringify(params) : params;
+        }
+
+        _this.request.delete(url, arg).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1813,7 +1859,6 @@ function () {
       });
     });
 
-    //es6的解构
     var _ref = options || {},
         _ref$requestConfig = _ref.requestConfig;
 
@@ -1845,22 +1890,17 @@ function () {
 
     this.request = request;
     this.qs = qs;
-    this.requestConfig(_type, headers, timeout, baseURL, withCredentials);
+    this.type = _type;
+    this.requestConfig(headers, timeout, baseURL, withCredentials);
     this.interceptorsRequest(isLoading, limitTime, loadingShow, loadingHide);
-    this.interceptorsResponse(isLoading, limitTime, loadingShow, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate);
+    this.interceptorsResponse(isLoading, limitTime, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate);
   } //请求配置
 
 
   _createClass(Request, [{
     key: "requestConfig",
-    value: function requestConfig() {
-      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'fly';
-      var headers = arguments.length > 1 ? arguments[1] : undefined;
-      var timeout = arguments.length > 2 ? arguments[2] : undefined;
-      var baseURL = arguments.length > 3 ? arguments[3] : undefined;
-      var withCredentials = arguments.length > 4 ? arguments[4] : undefined;
-
-      switch (type) {
+    value: function requestConfig(headers, timeout, baseURL, withCredentials) {
+      switch (this.type) {
         case 'fly':
           this.request.config.headers = headers; //定义公共headers
 
@@ -1889,8 +1929,6 @@ function () {
       var _this2 = this;
 
       this.request.interceptors.request.use(function (res) {
-        // 给所有请求添加自定义header 这里需要后端支持
-        // request.headers["X-Tag"]="flyio";
         _this2.loadingTimer = setTimeout(function () {
           isLoading && _this2.loading && loadingShow();
         }, limitTime ? limitTime : 0);
@@ -1900,19 +1938,17 @@ function () {
 
   }, {
     key: "interceptorsResponse",
-    value: function interceptorsResponse(isLoading, limitTime, loadingShow, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate) {
+    value: function interceptorsResponse(isLoading, limitTime, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate) {
       var _this3 = this;
 
       // // 添加响应拦截器，响应拦截器会在then/catch处理之前执行(获取数据后)
       this.request.interceptors.response.use(function (response) {
         return new Promise(function (resolve) {
-          if (isLoading && _this3.loading) {
-            //uni-app 的hideLoading 会把showToast也关闭掉 要先开启再关闭
-            //移动端需再开启后再关闭 PC端只要延迟关就好  //TODO: pc端可能不需要再开启 看框架需求 会出现重复的
-            // loadingShow()
-            //防止限制时间过长 可内容已经出现时未关闭
-            clearTimeout(_this3.loadingTimer); //限制时间过短无法关闭情况
+          //返回时间关闭
+          clearTimeout(_this3.loadingTimer);
 
+          if (isLoading && _this3.loading) {
+            //限制时间过短无法关闭情况
             setTimeout(function () {
               loadingHide();
             }, limitTime ? limitTime : 0);
@@ -1922,7 +1958,7 @@ function () {
           var data = //后台返回的data有可能是字符串 如果是就转换 tp5 json_encode会这样 基类中
           typeof response.data === 'string' ? JSON.parse(response.data) : response.data; //用[]才能拼接外面传进来的值data.key 只能获取自己的值
 
-          if (data[key] === value && routeValidate()) {
+          if (data[key] === value && (routeValidate ? routeValidate() : true)) {
             notLogin(data[msg]);
             return;
           } //如果不成功的情况下 弹出的信息
@@ -1994,11 +2030,11 @@ function () {
         });
       });
     }
-    /**  请求类 可用post或者get方法
-     * @param {String} url api接口地址
-     * @param {Object} params 传到后台的参数
-     * @param {String} type 是get 还是post 请求
-     * @param {Boolean} loading 是否开启loading动画
+    /** 请求类可用post或者get方法
+     * @param  {String} url api接口地址
+     * @param  {Object} params 传到后台的参数
+     * @param  {String} type 是get 还是post 请求
+     * @param  {Boolean} loading 是否开启loading动画
      * @return {Object} 返回请求结果
      */
 
