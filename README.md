@@ -96,9 +96,11 @@ npm i yaoxfly-request
 | 参数 |类型| 说明 |
 |:---:| :--: | :----: |
 | url | String |api 地址 |
-|param | Object |后台 接收的参数 |
+| param | Object |后台 接收的参数 |
+| type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置 在第三个参数|
 | isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
-|type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置|
+| qs| Boolean| 是否开启强专 默认是 true,选填|
+| headers| Object| 传 headers 参数 默认是 {}, 选填 |
 
 #### 4 request/index.js 配置说明
 
