@@ -29,9 +29,9 @@ export default {
 
       let formData = new FormData();
       formData.append("excel", e.target.files[0]); // 
-
+      // https://alexxj.mralex.cn/project/ericsson/teacher/psychologistImport
       this.$YxRequest
-        .requests("https://alexxj.mralex.cn/project/ericsson/teacher/psychologistImport", formData, 'post', true, false)
+        .submitFormData("http://www.ericssons.com/teacher/psychologistImport", formData, true, { sid: 1 })
         .then(res => {
           console.log(res);
         });
