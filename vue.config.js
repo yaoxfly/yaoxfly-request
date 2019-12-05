@@ -5,7 +5,6 @@ function resolve (dir) {
 
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
-const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   // 将 examples 目录添加为新的页面
@@ -34,7 +33,7 @@ module.exports = {
         axios: 'axios'
       }
     })
-    if (isProduction) {
+    if (process.env.NODE_ENV === 'production') {
       config.plugins.push(
         new CompressionWebpackPlugin({
           algorithm: 'gzip',
