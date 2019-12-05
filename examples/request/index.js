@@ -1,31 +1,32 @@
 /* eslint-disable */
-import Vue from 'vue'
-import Fly from 'flyio/dist/npm/fly.js'
-import axios from 'axios'
-import qs from 'qs'
-import YxRequest from '../../lib'
-const $this = new Vue() //实例化vue,普通的this用不了
-const ONLINE_DOMAN_NAME = window.location.protocol + '//' + window.location.host //协议加域名
-let loading = '' //动画
+import Vue from "vue";
+import Fly from "flyio/dist/npm/fly.js";
+import axios from "axios";
+import qs from "qs";
+import YxRequest from "../../lib";
+const $this = new Vue(); //实例化vue,普通的this用不了
+const ONLINE_DOMAN_NAME =
+  window.location.protocol + "//" + window.location.host; //协议加域名
+let loading = ""; //动画
 
 //3.在新的实例上使用组件
-Vue.use(YxRequest)
-const fly = new Fly()
+Vue.use(YxRequest);
+const fly = new Fly();
 export default new YxRequest({
   //请求配置
   requestConfig: {
     request: axios, //请求名 flyio/axios
-    type: 'axios', //请求类型
+    type: "axios", //请求类型
     qs: qs,
     headers: {
-      token: '1',
-      'content-Type': 'application/x-www-form-urlencoded' //php的post传输请求头一定要这个 不然报错 接收不到值
+      token: "1",
+      "content-Type": "application/x-www-form-urlencoded" //php的post传输请求头一定要这个 不然报错 接收不到值
     },
     timeout: 30000,
     baseURL:
-      process.env.NODE_ENV === 'development'
-        ? 'http://www.yaoxfly.com/'
-        : ONLINE_DOMAN_NAME + '/project/ericsson/',
+      process.env.NODE_ENV === "development"
+        ? "http://www.yaoxfly.com/"
+        : ONLINE_DOMAN_NAME + "/project/ericsson/",
     // baseURL:
     //   process.env.NODE_ENV === 'development'
     //     ? 'http://www.ericssons.com'
@@ -40,8 +41,8 @@ export default new YxRequest({
     loadingShow: () => {
       loading = $this.$loading({
         lock: false,
-        background: 'rgba(0, 0, 0, 0.1)'
-      })
+        background: "rgba(0, 0, 0, 0.1)"
+      });
       // uni.showLoading({
       //   title: '加载中'
       //   // mask: true //不加mask 让其可操作
@@ -50,27 +51,27 @@ export default new YxRequest({
     loadingHide: () => {
       // uni.hideLoading()
       if (loading) {
-        loading.close()
+        loading.close();
       }
     }
   },
 
   resError: {
-    key: 'code', // 与后台规定的状态码的值
-    msg: 'msg', //与后台规定的消息值 key值必须是msg 右边可改
+    key: "code", // 与后台规定的状态码的值
+    msg: "msg", //与后台规定的消息值 key值必须是msg 右边可改
     value: -1, // 与后台规定的表示登录失败的code值
     // 接口异常默认提示的方法
     tipShow: err => {
       // console.log(err)
       setTimeout(() => {
-        $this.$message(err)
-      }, 200)
+        $this.$message(err);
+      }, 200);
     },
     //登录失败提示
     notLogin: err => {
       setTimeout(() => {
-        $this.$message(err)
-      }, 200)
+        $this.$message(err);
+      }, 200);
       // setTimeout(() => {
       // window.location.href = 'http://www.baidu.com'
       // }, 2000)
@@ -90,11 +91,11 @@ export default new YxRequest({
         case 0:
         case -6:
         case -1: //路由验证时,不验证登录时的不弹窗
-          break
+          break;
         default:
           setTimeout(() => {
-            $this.$message(err)
-          }, 200)
+            $this.$message(err);
+          }, 200);
       }
       // setTimeout(() => {
       //   //主要是uni 关闭loading 会把showToast也关闭掉,所以要给点延时防止被瞬时关闭 延时少于200不生效
@@ -111,7 +112,7 @@ export default new YxRequest({
   //路由登录权限控制 (可以让路由不需要登录,也可跳转) false 不需要验证  可这个删除 我做了验证
   accessControl: {
     routeValidate: () => {
-      return true
+      return true;
       // let pages = getCurrentPages() //获取加载过的路由
       // let currPage = pages[pages.length - 1] //获取当前页路由
       // // console.log(currPage.route)
@@ -123,4 +124,4 @@ export default new YxRequest({
       //     return true
     }
   }
-})
+});
