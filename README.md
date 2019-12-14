@@ -19,19 +19,20 @@ npm i yaoxfly-request
 ##### get 请求
 
 ```
- this.$YxRequest.get('test/test', { name: '1', age: '1' })
+ this.$YxRequest.get('test/test', { name: '1', age: '1' },true,true)
  .then(res => {
   console.log(res);
  })
  .catch(err=>{
    console.log(err);
  })
+
 ```
 
 ##### post 请求
 
 ```
- this.$YxRequest.post(url,param,isLoading)
+ this.$YxRequest.post(url,param,isLoading,qs)
  .then(res => {
   console.log(res);
  })
@@ -44,7 +45,7 @@ npm i yaoxfly-request
 ##### patch 请求
 
 ```
- this.$YxRequest.patch(url,param,isLoading))
+ this.$YxRequest.patch(url,param,isLoading,qs)
  .then(res => {
     console.log(res);
  })
@@ -56,7 +57,7 @@ npm i yaoxfly-request
 ##### put 请求
 
 ```
- this.$YxRequest.put(url,param,isLoading))
+ this.$YxRequest.put(url,param,isLoading,qs)
  .then(res => {
     console.log(res);
  })
@@ -69,7 +70,7 @@ npm i yaoxfly-request
 ##### delete 请求
 
 ```
- this.$YxRequest.delete(url,param,isLoading))
+ this.$YxRequest.delete(url,param,isLoading,qs)
  .then(res => {
    console.log(res);
  })
@@ -78,16 +79,30 @@ npm i yaoxfly-request
  })
 ```
 
-##### 全部请求 可传类型请求
+##### 全部请求 可传各种类型请求， 可添加 headers 参数
 
 ```
- this.$YxRequest.requests(url,param,type,isLoading)
+ this.$YxRequest.requests(url,param,type,isLoading,qs,headers)
  .then(res => {
      console.log(res);
  })
  .catch(err =>{
    console.log(err);
  })
+
+```
+
+##### 上传文件类型的请求 只能是 post 提交 可添加 headers 参数
+
+```
+ this.$YxRequest.submitFormData(url,param,loading = true, headers = {})
+ .then(res => {
+     console.log(res);s
+ })
+ .catch(err =>{
+   console.log(err);
+ })
+
 ```
 
 #### 3 方法参数说明
@@ -96,9 +111,11 @@ npm i yaoxfly-request
 | 参数 |类型| 说明 |
 |:---:| :--: | :----: |
 | url | String |api 地址 |
-|param | Object |后台 接收的参数 |
+| param | Object |后台 接收的参数 |
+| type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置 在第三个参数|
 | isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
-|type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置|
+| qs| Boolean| 是否开启强专 默认是 true,选填|
+| headers| Object| 传 headers 参数 默认是 {}, 选填 当前参数只有 submitFormData 和 requests 方法可设置 最后一个参数|
 
 #### 4 request/index.js 配置说明
 

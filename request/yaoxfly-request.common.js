@@ -98,6 +98,20 @@ module.exports = function (it, key) {
 
 /***/ }),
 
+/***/ "0d58":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__("ce10");
+var enumBugKeys = __webpack_require__("e11e");
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
+};
+
+
+/***/ }),
+
 /***/ "1991":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -281,6 +295,14 @@ module.exports = function (it) {
     // ES3 arguments fallback
     : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 };
+
+
+/***/ }),
+
+/***/ "2621":
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
@@ -536,6 +558,26 @@ var exports = module.exports = function (iterable, entries, fn, that, ITERATOR) 
 };
 exports.BREAK = BREAK;
 exports.RETURN = RETURN;
+
+
+/***/ }),
+
+/***/ "4bf8":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.13 ToObject(argument)
+var defined = __webpack_require__("be13");
+module.exports = function (it) {
+  return Object(defined(it));
+};
+
+
+/***/ }),
+
+/***/ "52a7":
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
 
 
 /***/ }),
@@ -941,6 +983,31 @@ module.exports = function (exec, skipClosing) {
 
 /***/ }),
 
+/***/ "613b":
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__("5537")('keys');
+var uid = __webpack_require__("ca5a");
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ "626a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__("2d95");
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
 /***/ "63b6":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1010,6 +1077,19 @@ module.exports = $export;
 
 /***/ }),
 
+/***/ "6821":
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__("626a");
+var defined = __webpack_require__("be13");
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
 /***/ "69a8":
 /***/ (function(module, exports) {
 
@@ -1040,6 +1120,52 @@ module.exports = function (it, S) {
 
 /***/ }),
 
+/***/ "7333":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 19.1.2.1 Object.assign(target, source, ...)
+var DESCRIPTORS = __webpack_require__("9e1e");
+var getKeys = __webpack_require__("0d58");
+var gOPS = __webpack_require__("2621");
+var pIE = __webpack_require__("52a7");
+var toObject = __webpack_require__("4bf8");
+var IObject = __webpack_require__("626a");
+var $assign = Object.assign;
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__("79e5")(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function (k) { B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || isEnum.call(S, key)) T[key] = S[key];
+    }
+  } return T;
+} : $assign;
+
+
+/***/ }),
+
 /***/ "7726":
 /***/ (function(module, exports) {
 
@@ -1049,6 +1175,20 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
   // eslint-disable-next-line no-new-func
   : Function('return this')();
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "77f1":
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__("4588");
+var max = Math.max;
+var min = Math.min;
+module.exports = function (index, length) {
+  index = toInteger(index);
+  return index < 0 ? max(index + length, 0) : min(index, length);
+};
 
 
 /***/ }),
@@ -1393,6 +1533,48 @@ module.exports = function (C, x) {
 
 /***/ }),
 
+/***/ "be13":
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ "c366":
+/***/ (function(module, exports, __webpack_require__) {
+
+// false -> Array#indexOf
+// true  -> Array#includes
+var toIObject = __webpack_require__("6821");
+var toLength = __webpack_require__("9def");
+var toAbsoluteIndex = __webpack_require__("77f1");
+module.exports = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
+      if (O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+
+/***/ }),
+
 /***/ "c69a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1422,6 +1604,30 @@ var isObject = __webpack_require__("d3f4");
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
+};
+
+
+/***/ }),
+
+/***/ "ce10":
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__("69a8");
+var toIObject = __webpack_require__("6821");
+var arrayIndexOf = __webpack_require__("c366")(false);
+var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
 };
 
 
@@ -1506,6 +1712,17 @@ module.exports = function (target, src, safe) {
   for (var key in src) redefine(target, key, src[key], safe);
   return target;
 };
+
+
+/***/ }),
+
+/***/ "e11e":
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
 
 
 /***/ }),
@@ -1606,6 +1823,17 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 /***/ }),
 
+/***/ "f751":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__("5ca1");
+
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__("7333") });
+
+
+/***/ }),
+
 /***/ "f772":
 /***/ (function(module, exports) {
 
@@ -1655,6 +1883,9 @@ if (typeof window !== 'undefined') {
 
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.assign.js
+var es6_object_assign = __webpack_require__("f751");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.promise.js
 var es6_promise = __webpack_require__("551c");
@@ -1710,6 +1941,7 @@ function _defineProperty(obj, key, value) {
 
 
 
+
 /* eslint-disable */
 var request_Request =
 /*#__PURE__*/
@@ -1725,30 +1957,33 @@ function () {
 
     _classCallCheck(this, Request);
 
-    _defineProperty(this, "loadingTimer", '');
+    _defineProperty(this, "loadingTimer", "");
 
-    _defineProperty(this, "request", '');
+    _defineProperty(this, "request", "");
 
-    _defineProperty(this, "qs", '');
+    _defineProperty(this, "qs", "");
 
     _defineProperty(this, "loading", true);
 
-    _defineProperty(this, "type", '');
+    _defineProperty(this, "type", "");
 
     _defineProperty(this, "requests", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'post';
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "post";
       var loading = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var qs = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+      var headers = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {};
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        if (_this.type === 'axios') {
+        if (_this.type === "axios") {
           _this.request.request({
             method: type,
             url: url,
             params: params,
             paramsSerializer: function paramsSerializer(params) {
-              return _this.qs ? _this.qs.stringify(params) : params;
-            }
+              return _this.qs && qs ? _this.qs.stringify(params) : params;
+            },
+            headers: headers
           }).then(function (response) {
             resolve(response);
           }).catch(function (error) {
@@ -1758,8 +1993,9 @@ function () {
           return;
         }
 
-        _this.request.request(url, _this.qs ? _this.qs.stringify(params) : params, {
-          method: type
+        _this.request.request(url, _this.qs && qs ? _this.qs.stringify(params) : params, {
+          method: type,
+          headers: headers
         }).then(function (response) {
           resolve(response);
         }).catch(function (error) {
@@ -1771,19 +2007,20 @@ function () {
     _defineProperty(this, "get", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        var arg = '';
+        var arg = "";
 
-        if (_this.type === 'axios') {
+        if (_this.type === "axios") {
           arg = {
             params: params,
             paramsSerializer: function paramsSerializer(params) {
-              return _this.qs ? _this.qs.stringify(params) : params;
+              return _this.qs && qs ? _this.qs.stringify(params) : params;
             }
           };
         } else {
-          arg = _this.qs ? _this.qs.stringify(params) : params;
+          arg = _this.qs && qs ? _this.qs.stringify(params) : params;
         }
 
         _this.request.get(url, arg).then(function (response) {
@@ -1797,9 +2034,10 @@ function () {
     _defineProperty(this, "post", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        _this.request.post(url, _this.qs ? _this.qs.stringify(params) : params).then(function (response) {
+        _this.request.post(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1810,9 +2048,10 @@ function () {
     _defineProperty(this, "put", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        _this.request.put(url, _this.qs ? _this.qs.stringify(params) : params).then(function (response) {
+        _this.request.put(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1823,9 +2062,10 @@ function () {
     _defineProperty(this, "patch", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        _this.request.patch(url, _this.qs ? _this.qs.stringify(params) : params).then(function (response) {
+        _this.request.patch(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1836,22 +2076,58 @@ function () {
     _defineProperty(this, "delete", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
-        var arg = '';
+        var arg = "";
 
-        if (_this.type === 'axios') {
+        if (_this.type === "axios") {
           arg = {
             params: params,
             paramsSerializer: function paramsSerializer(params) {
-              return _this.qs ? _this.qs.stringify(params) : params;
+              return _this.qs && qs ? _this.qs.stringify(params) : params;
             }
           };
         } else {
-          arg = _this.qs ? _this.qs.stringify(params) : params;
+          arg = _this.qs && qs ? _this.qs.stringify(params) : params;
         }
 
         _this.request.delete(url, arg).then(function (response) {
+          resolve(response);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    });
+
+    _defineProperty(this, "submitFormData", function (url) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var headers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      _this.loading = loading;
+      return new Promise(function (resolve, reject) {
+        if (_this.type === "axios") {
+          _this.request.request({
+            method: "post",
+            url: url,
+            data: params,
+            headers: headers
+          }).then(function (response) {
+            resolve(response);
+          }).catch(function (error) {
+            reject(error);
+          });
+
+          return;
+        } //fly请求必须加上headers头才可以提交请求
+
+
+        _this.request.request(url, params, {
+          method: "post",
+          headers: Object.assign(headers, {
+            "Content-Type": "multipart/form-data"
+          })
+        }).then(function (response) {
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -1864,8 +2140,8 @@ function () {
 
     _ref$requestConfig = _ref$requestConfig === void 0 ? {} : _ref$requestConfig;
     var request = _ref$requestConfig.request,
-        qs = _ref$requestConfig.qs,
-        headers = _ref$requestConfig.headers,
+        _qs = _ref$requestConfig.qs,
+        _headers = _ref$requestConfig.headers,
         timeout = _ref$requestConfig.timeout,
         baseURL = _ref$requestConfig.baseURL,
         _type = _ref$requestConfig.type,
@@ -1889,9 +2165,9 @@ function () {
     var routeValidate = _ref$accessControl.routeValidate; //有了{}主要是为了防止报错
 
     this.request = request;
-    this.qs = qs;
+    this.qs = _qs;
     this.type = _type;
-    this.requestConfig(headers, timeout, baseURL, withCredentials);
+    this.requestConfig(_headers, timeout, baseURL, withCredentials);
     this.interceptorsRequest(isLoading, limitTime, loadingShow, loadingHide);
     this.interceptorsResponse(isLoading, limitTime, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate);
   } //请求配置
@@ -1901,7 +2177,7 @@ function () {
     key: "requestConfig",
     value: function requestConfig(headers, timeout, baseURL, withCredentials) {
       switch (this.type) {
-        case 'fly':
+        case "fly":
           this.request.config.headers = headers; //定义公共headers
 
           this.request.config.timeout = timeout; //设置超时
@@ -1912,7 +2188,7 @@ function () {
 
           break;
 
-        case 'axios':
+        case "axios":
           this.request.defaults.baseURL = baseURL;
           this.request.defaults.headers = headers;
           this.request.defaults.timeout = timeout; //设置超时
@@ -1954,9 +2230,9 @@ function () {
             }, limitTime ? limitTime : 0);
           }
 
-          response = typeof response === 'string' ? JSON.parse(response) : response;
+          response = typeof response === "string" ? JSON.parse(response) : response;
           var data = //后台返回的data有可能是字符串 如果是就转换 tp5 json_encode会这样 基类中
-          typeof response.data === 'string' ? JSON.parse(response.data) : response.data; //用[]才能拼接外面传进来的值data.key 只能获取自己的值
+          typeof response.data === "string" ? JSON.parse(response.data) : response.data; //用[]才能拼接外面传进来的值data.key 只能获取自己的值
 
           if (data[key] === value && (routeValidate ? routeValidate() : true)) {
             notLogin(data[msg]);
@@ -1972,54 +2248,54 @@ function () {
           if (err && err.response) {
             switch (err.response.status) {
               case 400:
-                err.message = '请求错误(400)';
+                err.message = "请求错误(400)";
                 break;
 
               case 401:
-                err.message = '未授权，请重新登录(401)';
+                err.message = "未授权，请重新登录(401)";
                 break;
 
               case 403:
-                err.message = '拒绝访问(403)';
+                err.message = "拒绝访问(403)";
                 break;
 
               case 404:
-                err.message = '请求出错(404)';
+                err.message = "请求出错(404)";
                 break;
 
               case 408:
-                err.message = '请求超时(408)';
+                err.message = "请求超时(408)";
                 break;
 
               case 500:
-                err.message = '服务器错误(500)';
+                err.message = "服务器错误(500)";
                 break;
 
               case 501:
-                err.message = '服务未实现(501)';
+                err.message = "服务未实现(501)";
                 break;
 
               case 502:
-                err.message = '网络错误(502)';
+                err.message = "网络错误(502)";
                 break;
 
               case 503:
-                err.message = '服务不可用(503)';
+                err.message = "服务不可用(503)";
                 break;
 
               case 504:
-                err.message = '网络超时(504)';
+                err.message = "网络超时(504)";
                 break;
 
               case 505:
-                err.message = 'HTTP版本不受支持(505)';
+                err.message = "HTTP版本不受支持(505)";
                 break;
 
               default:
                 err.message = "\u670D\u52A1\u5668\u5347\u7EA7\u4E2D,\u8BF7\u7A0D\u540E\u91CD\u8BD5\u3002(".concat(err.response.status, ")!");
             }
           } else {
-            err.message = '网络超时,请稍后重试!';
+            err.message = "网络超时,请稍后重试!";
           }
 
           clearTimeout(_this3.loadingTimer); // 请求结束就清掉定时器
@@ -2031,10 +2307,12 @@ function () {
       });
     }
     /** 请求类可用post或者get方法
-     * @param  {String} url api接口地址
-     * @param  {Object} params 传到后台的参数
-     * @param  {String} type 是get 还是post 请求
+     * @param  {String}  url api接口地址
+     * @param  {Object}  params 传到后台的参数
+     * @param  {String}  type 是get 还是post 请求
      * @param  {Boolean} loading 是否开启loading动画
+     * @param  {Boolean} qs 是否开启qs转换
+     * @param  {Object}  headers 添加请求头--可用来传递参数
      * @return {Object} 返回请求结果
      */
 
@@ -2043,7 +2321,7 @@ function () {
   return Request;
 }();
 
-_defineProperty(request_Request, "className", 'YxRequest');
+_defineProperty(request_Request, "className", "YxRequest");
 
 /* harmony default export */ var lib_request = (request_Request);
 // CONCATENATED MODULE: ./lib/index.js

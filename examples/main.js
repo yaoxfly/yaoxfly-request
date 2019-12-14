@@ -1,23 +1,22 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import YxRequest from './request'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import YxRequest from "./request";
 // import qs from 'qs'
 // import axios from 'axios'
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 new Vue({
   router,
   store,
   YxRequest,
 
-  mounted () {
-    this.$YxRequest
-      .requests('index/test', { test: { a: 11, b: 13 } }, 'delete')
-      .then(res => {
-        console.log(res)
-      })
-
+  mounted() {
+    // this.$YxRequest
+    //   .requests("index/test", { test: { a: 11, b: 13 } }, "delete")
+    //   .then(res => {
+    //     console.log(res);
+    //   });
     // axios
     //   .delete(
     //     'index/index/getTest',
@@ -39,4 +38,4 @@ new Vue({
     //   })
   },
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");

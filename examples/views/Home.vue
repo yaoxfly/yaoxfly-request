@@ -3,6 +3,9 @@
     <img alt="Vue logo"
          src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App" />
+
+    <input type="file"
+           @change="test">
   </div>
 </template>
 
@@ -18,6 +21,23 @@ export default {
 
   created () {
 
+  },
+  methods: {
+    test (e) {
+
+
+
+      let formData = new FormData();
+      formData.append("excel", e.target.files[0]); // 
+      // https://alexxj.mralex.cn/project/ericsson/teacher/psychologistImport
+      this.$YxRequest
+        .submitFormData("http://www.ericssons.com/teacher/psychologistImport", formData, true, { sid: 1 })
+        .then(res => {
+          console.log(res);
+        });
+
+    }
   }
+
 }
 </script>
