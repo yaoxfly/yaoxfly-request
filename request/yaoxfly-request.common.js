@@ -1949,6 +1949,7 @@ function () {
   //请求loading的定时器
   //请求
   //转换的类
+  //是否开启动画
   //请求库类型
   function Request() {
     var _this = this;
@@ -2102,8 +2103,19 @@ function () {
 
     _defineProperty(this, "submitFormData", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var headers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      // loading 是否开启loading动画
+      // headers 添加请求头--可用来传递参数
+      // timeout 超时时间，为0时则无超时限制
+      var _ref = config || {},
+          _ref$loading = _ref.loading,
+          loading = _ref$loading === void 0 ? true : _ref$loading,
+          _ref$headers = _ref.headers,
+          headers = _ref$headers === void 0 ? {} : _ref$headers,
+          _ref$timeout = _ref.timeout,
+          timeout = _ref$timeout === void 0 ? 0 : _ref$timeout;
+
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         if (_this.type === "axios") {
@@ -2111,7 +2123,8 @@ function () {
             method: "post",
             url: url,
             data: params,
-            headers: headers
+            headers: headers,
+            timeout: timeout
           }).then(function (response) {
             resolve(response);
           }).catch(function (error) {
@@ -2119,14 +2132,15 @@ function () {
           });
 
           return;
-        } //fly请求必须加上headers头才可以提交请求
+        } //fly请求必须加上传输文件headers头才可以提交请求
 
 
         _this.request.request(url, params, {
           method: "post",
           headers: Object.assign(headers, {
             "Content-Type": "multipart/form-data"
-          })
+          }),
+          timeout: timeout
         }).then(function (response) {
           resolve(response);
         }).catch(function (error) {
@@ -2135,78 +2149,114 @@ function () {
       });
     });
 
-    var _ref = options || {},
-        _ref$requestConfig = _ref.requestConfig;
+    var _ref2 = options || {},
+        _ref2$requestConfig = _ref2.requestConfig;
 
-    _ref$requestConfig = _ref$requestConfig === void 0 ? {} : _ref$requestConfig;
-    var request = _ref$requestConfig.request,
-        _qs = _ref$requestConfig.qs,
-        _headers = _ref$requestConfig.headers,
-        timeout = _ref$requestConfig.timeout,
-        baseURL = _ref$requestConfig.baseURL,
-        _type = _ref$requestConfig.type,
-        withCredentials = _ref$requestConfig.withCredentials,
-        _ref$loading = _ref.loading;
-    _ref$loading = _ref$loading === void 0 ? {} : _ref$loading;
-    var isLoading = _ref$loading.isLoading,
-        limitTime = _ref$loading.limitTime,
-        loadingShow = _ref$loading.loadingShow,
-        loadingHide = _ref$loading.loadingHide,
-        _ref$resError = _ref.resError;
-    _ref$resError = _ref$resError === void 0 ? {} : _ref$resError;
-    var key = _ref$resError.key,
-        value = _ref$resError.value,
-        msg = _ref$resError.msg,
-        tipShow = _ref$resError.tipShow,
-        notSuccessful = _ref$resError.notSuccessful,
-        notLogin = _ref$resError.notLogin,
-        _ref$accessControl = _ref.accessControl;
-    _ref$accessControl = _ref$accessControl === void 0 ? {} : _ref$accessControl;
-    var routeValidate = _ref$accessControl.routeValidate; //有了{}主要是为了防止报错
+    _ref2$requestConfig = _ref2$requestConfig === void 0 ? {} : _ref2$requestConfig;
+
+    var request = _ref2$requestConfig.request,
+        _qs = _ref2$requestConfig.qs,
+        _headers = _ref2$requestConfig.headers,
+        _ref2$requestConfig$t = _ref2$requestConfig.timeout,
+        _timeout = _ref2$requestConfig$t === void 0 ? 30000 : _ref2$requestConfig$t,
+        baseURL = _ref2$requestConfig.baseURL,
+        _type = _ref2$requestConfig.type,
+        withCredentials = _ref2$requestConfig.withCredentials,
+        _ref2$loading = _ref2.loading;
+
+    _ref2$loading = _ref2$loading === void 0 ? {} : _ref2$loading;
+    var _ref2$loading$isLoadi = _ref2$loading.isLoading,
+        isLoading = _ref2$loading$isLoadi === void 0 ? true : _ref2$loading$isLoadi,
+        _ref2$loading$limitTi = _ref2$loading.limitTime,
+        limitTime = _ref2$loading$limitTi === void 0 ? 200 : _ref2$loading$limitTi,
+        loadingShow = _ref2$loading.loadingShow,
+        loadingHide = _ref2$loading.loadingHide,
+        _ref2$resError = _ref2.resError;
+    _ref2$resError = _ref2$resError === void 0 ? {} : _ref2$resError;
+    var key = _ref2$resError.key,
+        value = _ref2$resError.value,
+        msg = _ref2$resError.msg,
+        tipShow = _ref2$resError.tipShow,
+        notSuccessful = _ref2$resError.notSuccessful,
+        notLogin = _ref2$resError.notLogin,
+        _ref2$accessControl = _ref2.accessControl;
+    _ref2$accessControl = _ref2$accessControl === void 0 ? {} : _ref2$accessControl;
+    var routeValidate = _ref2$accessControl.routeValidate; //需要共用
 
     this.request = request;
     this.qs = _qs;
     this.type = _type;
-    this.requestConfig(_headers, timeout, baseURL, withCredentials);
-    this.interceptorsRequest(isLoading, limitTime, loadingShow, loadingHide);
-    this.interceptorsResponse(isLoading, limitTime, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate);
+    this.requestConfig({
+      headers: _headers,
+      timeout: _timeout,
+      baseURL: baseURL,
+      withCredentials: withCredentials
+    });
+    this.interceptorsRequest({
+      isLoading: isLoading,
+      limitTime: limitTime,
+      loadingShow: loadingShow
+    });
+    this.interceptorsResponse({
+      isLoading: isLoading,
+      limitTime: limitTime,
+      loadingHide: loadingHide,
+      key: key,
+      msg: msg,
+      value: value,
+      tipShow: tipShow,
+      notSuccessful: notSuccessful,
+      notLogin: notLogin,
+      routeValidate: routeValidate
+    });
   } //请求配置
 
 
   _createClass(Request, [{
     key: "requestConfig",
-    value: function requestConfig(headers, timeout, baseURL, withCredentials) {
-      switch (this.type) {
-        case "fly":
-          this.request.config.headers = headers; //定义公共headers
+    value: function requestConfig(config) {
+      var _this2 = this;
 
-          this.request.config.timeout = timeout; //设置超时
+      var _ref3 = config || {},
+          headers = _ref3.headers,
+          timeout = _ref3.timeout,
+          baseURL = _ref3.baseURL,
+          withCredentials = _ref3.withCredentials;
 
-          this.request.config.baseURL = baseURL; //设置请求基地址
+      var keyMap = {
+        fly: function fly() {
+          _this2.request.config.headers = headers; //定义公共headers
 
-          this.request.config.withCredentials = withCredentials; //跨域处理
+          _this2.request.config.timeout = timeout; //设置超时
 
-          break;
+          _this2.request.config.baseURL = baseURL; //设置请求基地址
 
-        case "axios":
-          this.request.defaults.baseURL = baseURL;
-          this.request.defaults.headers = headers;
-          this.request.defaults.timeout = timeout; //设置超时
+          _this2.request.config.withCredentials = withCredentials; //跨域处理
+        },
+        axios: function axios() {
+          _this2.request.defaults.baseURL = baseURL;
+          _this2.request.defaults.headers = headers;
+          _this2.request.defaults.timeout = timeout; //设置超时
 
-          this.request.defaults.withCredentials = withCredentials; //跨域处理
-
-          break;
-      }
+          _this2.request.defaults.withCredentials = withCredentials; //跨域处理
+        }
+      };
+      keyMap[this.type.toLowerCase()].call(this);
     } //添加请求拦截器 发送前
 
   }, {
     key: "interceptorsRequest",
-    value: function interceptorsRequest(isLoading, limitTime, loadingShow) {
-      var _this2 = this;
+    value: function interceptorsRequest(config) {
+      var _this3 = this;
+
+      var _ref4 = config || {},
+          isLoading = _ref4.isLoading,
+          limitTime = _ref4.limitTime,
+          loadingShow = _ref4.loadingShow;
 
       this.request.interceptors.request.use(function (res) {
-        _this2.loadingTimer = setTimeout(function () {
-          isLoading && _this2.loading && loadingShow();
+        _this3.loadingTimer = setTimeout(function () {
+          isLoading && _this3.loading && loadingShow();
         }, limitTime ? limitTime : 0);
         return res;
       });
@@ -2214,25 +2264,37 @@ function () {
 
   }, {
     key: "interceptorsResponse",
-    value: function interceptorsResponse(isLoading, limitTime, loadingHide, key, msg, value, tipShow, notSuccessful, notLogin, routeValidate) {
-      var _this3 = this;
+    value: function interceptorsResponse(config) {
+      var _this4 = this;
 
-      // // 添加响应拦截器，响应拦截器会在then/catch处理之前执行(获取数据后)
+      var _ref5 = config || {},
+          isLoading = _ref5.isLoading,
+          limitTime = _ref5.limitTime,
+          loadingHide = _ref5.loadingHide,
+          key = _ref5.key,
+          msg = _ref5.msg,
+          value = _ref5.value,
+          tipShow = _ref5.tipShow,
+          notSuccessful = _ref5.notSuccessful,
+          notLogin = _ref5.notLogin,
+          routeValidate = _ref5.routeValidate; // // 添加响应拦截器，响应拦截器会在then/catch处理之前执行(获取数据后)
+
+
       this.request.interceptors.response.use(function (response) {
         return new Promise(function (resolve) {
           //返回时间关闭
-          clearTimeout(_this3.loadingTimer);
+          clearTimeout(_this4.loadingTimer);
 
-          if (isLoading && _this3.loading) {
+          if (isLoading && _this4.loading) {
             //限制时间过短无法关闭情况
             setTimeout(function () {
               loadingHide();
             }, limitTime ? limitTime : 0);
           }
 
-          response = typeof response === "string" ? JSON.parse(response) : response;
-          var data = //后台返回的data有可能是字符串 如果是就转换 tp5 json_encode会这样 基类中
-          typeof response.data === "string" ? JSON.parse(response.data) : response.data; //用[]才能拼接外面传进来的值data.key 只能获取自己的值
+          response = typeof response === "string" ? JSON.parse(response) : response; //后台返回的data有可能是字符串,如果是就转换,比如tp5 json_encode会这样 基类中
+
+          var data = typeof response.data === "string" ? JSON.parse(response.data) : response.data; //用[]才能拼接外面传进来的值data.key 只能获取自己的值
 
           if (data[key] === value && (routeValidate ? routeValidate() : true)) {
             notLogin(data[msg]);
@@ -2298,7 +2360,7 @@ function () {
             err.message = "网络超时,请稍后重试!";
           }
 
-          clearTimeout(_this3.loadingTimer); // 请求结束就清掉定时器
+          clearTimeout(_this4.loadingTimer); // 请求结束就清掉定时器
 
           loadingHide(); //隐藏loading
 
