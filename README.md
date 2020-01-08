@@ -95,7 +95,7 @@ npm i yaoxfly-request
 ##### 上传文件类型的请求 只能是 post 提交 可添加 headers 参数
 
 ```
- this.$YxRequest.submitFormData(url,param,loading = true, headers = {})
+ this.$YxRequest.submitFormData(url,param, {loading = true, headers = {},timeout = 0 })
  .then(res => {
      console.log(res);s
  })
@@ -115,7 +115,8 @@ npm i yaoxfly-request
 | type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置 在第三个参数|
 | isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
 | qs| Boolean| 是否开启强专 默认是 true,选填|
-| headers| Object| 传 headers 参数 默认是 {}, 选填 当前参数只有 submitFormData 和 requests 方法可设置 最后一个参数|
+| headers | Object | 传 headers 参数 默认是 {}, 选填 当前参数只有 submitFormData 和 requests 方法可设置 最后一个参数|
+| timeout | Number | 超时时间 设置为0 无限制|
 
 #### 4 request/index.js 配置说明
 
@@ -305,10 +306,3 @@ export default new YxRequest({
 ```
 
 ##### 注意:当前 loading 使用的是 elementUi 的动画可自行修改
-
-#### 参与贡献
-
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request

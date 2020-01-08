@@ -20,22 +20,28 @@ export default {
   },
 
   created () {
-
+    // this.$YxRequest
+    //   .submitFormData("http://www.ericssons.com/singular/test", {},
+    //     {
+    //       timeout: 30000,
+    //     })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
   },
   methods: {
     test (e) {
-
-
-
       let formData = new FormData();
-      formData.append("excel", e.target.files[0]); // 
+      formData.append("excel", e.target.files[0]); //添加文件
       // https://alexxj.mralex.cn/project/ericsson/teacher/psychologistImport
       this.$YxRequest
-        .submitFormData("http://www.ericssons.com/teacher/psychologistImport", formData, true, { sid: 1 })
+        .submitFormData("http://www.ericssons.com/teacher/psychologistImport", formData,
+          {
+            headers: { sid: 1 },
+          })
         .then(res => {
           console.log(res);
         });
-
     }
   }
 
