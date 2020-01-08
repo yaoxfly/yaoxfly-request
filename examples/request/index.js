@@ -9,7 +9,7 @@ const ONLINE_DOMAN_NAME =
   window.location.protocol + "//" + window.location.host; //协议加域名
 let loading = ""; //动画
 
-//3.在新的实例上使用组件
+// 3.在新的实例上使用组件
 Vue.use(YxRequest);
 const fly = new Fly();
 export default new YxRequest({
