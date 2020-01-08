@@ -16,85 +16,87 @@ npm i yaoxfly-request
 
 #### 2 restFul api 请求
 
-##### get 请求
+- get 请求
 
-```
- this.$YxRequest.get('test/test', { name: '1', age: '1' },true,true)
- .then(res => {
-  console.log(res);
- })
- .catch(err=>{
-   console.log(err);
- })
-
-```
-
-##### post 请求
-
-```
- this.$YxRequest.post(url,param,isLoading,qs)
- .then(res => {
-  console.log(res);
- })
- .catch(err =>{
-   console.log(err);
- })
-
-```
-
-##### patch 请求
-
-```
- this.$YxRequest.patch(url,param,isLoading,qs)
- .then(res => {
+```js
+this.$YxRequest
+  .get("test/test", { name: "1", age: "1" }, true, true)
+  .then(res => {
     console.log(res);
- })
- .catch(err =>{
-  console.log(err);
- })
-```
-
-##### put 请求
-
-```
- this.$YxRequest.put(url,param,isLoading,qs)
- .then(res => {
-    console.log(res);
- })
- .catch(err =>{
+  })
+  .catch(err => {
     console.log(err);
- })
-
+  });
 ```
 
-##### delete 请求
+- post 请求
 
-```
- this.$YxRequest.delete(url,param,isLoading,qs)
- .then(res => {
-   console.log(res);
- })
- .catch(err =>{
-   console.log(err);
- })
-```
-
-##### 全部请求 可传各种类型请求， 可添加 headers 参数
-
-```
- this.$YxRequest.requests(url,param,type,isLoading,qs,headers)
- .then(res => {
-     console.log(res);
- })
- .catch(err =>{
-   console.log(err);
- })
-
+```js
+this.$YxRequest
+  .post(url, param, isLoading, qs)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 ```
 
-##### 上传文件类型的请求 只能是 post 提交 可添加 headers 参数
+- patch 请求
 
+```js
+this.$YxRequest
+  .patch(url, param, isLoading, qs)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 ```
+
+- put 请求
+
+```js
+this.$YxRequest
+  .put(url, param, isLoading, qs)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+```
+
+- delete 请求
+
+```js
+this.$YxRequest
+  .delete(url, param, isLoading, qs)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+```
+
+- 全部请求 可传各种类型请求， 可添加 headers 参数
+
+```js
+this.$YxRequest
+  .requests(url, param, type, isLoading, qs, headers)
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+```
+
+- 上传文件类型的请求 只能是 post 提交 可添加 headers 参数
+
+```js
  this.$YxRequest.submitFormData(url,param, {loading = true, headers = {},timeout = 0 })
  .then(res => {
      console.log(res);s
@@ -120,33 +122,137 @@ npm i yaoxfly-request
 
 #### 4 request/index.js 配置说明
 
-##### 在 request/index.js 文件里引入 yaoxfly-request
+- 在 request/index.js 文件里引入 yaoxfly-request
 
-```
-import YxRequest from 'yaoxfly-request'
-Vue.use(YxRequest)
-export default new YxRequest({
-})
+```js
+import YxRequest from "yaoxfly-request";
+Vue.use(YxRequest);
+export default new YxRequest({});
 ```
 
-##### 在 main.js 文件里
+- 在 main.js 文件里
 
-```
-import YxRequest from './request'
+```js
+import YxRequest from "./request";
 new Vue({
   router,
   store,
   YxRequest, //当前名字不可更改 一定要YxRequest
   render: h => h(App)
-  }).$mount('#app')
-
+}).$mount("#app");
 ```
+
+- request/index.js 配置参考
+
+```js
+import Vue from "vue";
+import Fly from "flyio/dist/npm/fly.js";
+import qs from "qs";
+import YxRequest from "yaoxfly-request";
+Vue.use(YxRequest);
+const $this = new Vue(); //实例化 vue,普通的 this 用不了
+const ONLINE_DOMAN_NAME =
+  window.location.protocol + "//" + window.location.host; //协议加域名
+let loading = ""; //动画
+const fly = new Fly();
+export default new YxRequest({
+  //请求配置
+  requestConfig: {
+    request: fly, //请求名 flyio/axios
+    type: "fly", //请求类型
+    qs: qs,
+    headers: {
+      token: 22221111,
+      "content-Type": "application/x-www-form-urlencoded" //php 的 post 传输请求头一定要这个 不然报错 接收不到值
+    },
+    timeout: 30000,
+    baseURL:
+      process.env.NODE_ENV === "development"
+        ? "http://www.ericssons.com"
+        : ONLINE_DOMAN_NAME + "/project/ericsson/",
+    withCredentials: true
+  },
+  //动画配置
+  loading: {
+    isLoading: true, //是否开启动画
+    limitTime: 200, // 接口请求在 xxxms 内完成则不展示 loading
+    loadingShow: () => {
+      loading = $this.$loading({
+        lock: false,
+        background: "rgba(0, 0, 0, 0.1)"
+      });
+    },
+    loadingHide: () => {
+      if (loading) {
+        loading.close();
+      }
+    }
+  },
+  //错误自动提示
+  resError: {
+    key: "code", // 与后台规定的状态码的值
+    msg: "msg", //与后台规定的消息值 key 值必须是 msg 右边可改
+    value: -1, // 与后台规定的表示登录失败的 code 值
+    // 接口异常默认提示的方法
+    tipShow: err => {
+      // console.log(err)
+      setTimeout(() => {
+        $this.$message(err);
+      }, 200);
+    },
+
+    //登录失败提示并跳转
+    notLogin: err => {
+      // console.log(err)
+      setTimeout(() => {
+        $this.$message(err);
+      }, 200);
+
+      setTimeout(() => {
+        window.location = "http://www.baidu.com";
+      }, 1000);
+    },
+
+    //不成功的提示
+    notSuccessful: (code, err) => {
+      //0 成功 -6有继续操作的错误提示 -1 登录
+      switch (code) {
+        case 0:
+        case -6:
+        case -1:
+          break;
+        default:
+          setTimeout(() => {
+            $this.$message(err);
+          }, 200);
+      }
+    }
+  },
+
+  //路由登录权限控制 (可以让路由不需要登录,也可跳转)false不需要验证,根据uni-app进行配置的如有报错可修改或删除。
+  accessControl: {
+    routeValidate: () => {
+      let pages = getCurrentPages(); //获取加载过的路由
+      let currPage = pages[pages.length - 1]; //获取当前页路由
+      switch (currPage.route) {
+        case "pages/advisory/counselor/CounselorList":
+        case "pages/advisory/counselor/CounselorInfo":
+          return false;
+        default:
+          return true;
+      }
+    }
+  }
+});
+```
+
+> tips:当前 loading 使用的是 elementUi 的动画可自行修改,需要下载 flyio/axios、qs、elementUi。
 
 ##### 配置参数
 
-1. 请求配置 requestConfig \*
+- 请求配置 requestConfig \*
 
-```
+```js
 requestConfig: {
   request: '', //请求名 flyio/axios
   type: '', //请求类型
@@ -158,9 +264,9 @@ requestConfig: {
 }
 ```
 
-2. 请求拦截 loading 配置 \*
+- 请求拦截 loading 配置 \*
 
-```
+```js
 loading: {
     isLoading: true, //是否开启动画
     limitTime: 200, //接口请求在 xxxms 内完成则不展示 loading
@@ -172,9 +278,9 @@ loading: {
 
 ```
 
-3. 请求错误 resError 配置 \*
+- 请求错误 resError 配置 \*
 
-```
+```js
 resError: {
   key: '', // 与后台规定的状态码的值
   msg: '', //与后台规定的消息值
@@ -188,121 +294,13 @@ resError: {
 }
 ```
 
-4. 路由权限 accessControl 配置
+- 路由权限 accessControl 配置
 
-```
+```js
 //路由登录权限控制 (可以让路由不需要登录,也可跳转) 返回值是 false不需要验证 true 需要验证
 accessControl: {
-  routeValidate: () => {}
+  routeValidate: () => {};
 }
-
 ```
 
-##### 注意:以上不打\*号的不是必须配置可自行决定是否配置
-
-#### 5 request/index.js 配置参考
-
-1. 需要下载 flyio/axios 、 qs 、 elementUi
-2. 以下 loading 有用到 elementUi 可自行修改
-
-```
-import Vue from 'vue'
-import Fly from 'flyio/dist/npm/fly.js'
-import qs from 'qs'
-import YxRequest from 'yaoxfly-request'
-Vue.use(YxRequest)
-const $this = new Vue() //实例化 vue,普通的 this 用不了
-const ONLINE_DOMAN_NAME = window.location.protocol + '//' + window.location.host //协议加域名
-let loading = '' //动画
-const fly = new Fly()
-export default new YxRequest({
-  //请求配置
-  requestConfig: {
-    request: fly, //请求名 flyio/axios
-    type: 'fly', //请求类型
-    qs: qs,
-    headers: {
-       token: 22221111,
-      'content-Type': 'application/x-www-form-urlencoded' //php 的 post 传输请求头一定要这个 不然报错 接收不到值
-    },
-    timeout: 30000,
-    baseURL:
-    process.env.NODE_ENV === 'development'
-    ? 'http://www.ericssons.com'
-    : ONLINE_DOMAN_NAME + '/project/ericsson/',
-    withCredentials: true
-  },
-  loading: {
-    isLoading: true, //是否开启动画
-    limitTime: 200, // 接口请求在 xxxms 内完成则不展示 loading
-    loadingShow: () => {
-      loading = $this.$loading({
-        lock: false,
-        background: 'rgba(0, 0, 0, 0.1)'
-     })
-    },
-    loadingHide: () => {
-      if (loading) {
-        loading.close()
-      }
-    }
-  },
-
-  resError: {
-    key: 'code', // 与后台规定的状态码的值
-    msg: 'msg', //与后台规定的消息值 key 值必须是 msg 右边可改
-    value: -1, // 与后台规定的表示登录失败的 code 值
-    // 接口异常默认提示的方法
-    tipShow: err => {
-      // console.log(err)
-      setTimeout(() => {
-        $this.$message(err)
-      }, 200)
-    },
-
-    //登录失败提示并跳转
-    notLogin: err => {
-      // console.log(err)
-      setTimeout(() => {
-        $this.$message(err)
-      }, 200)
-
-      setTimeout(() => {
-         window.location='http://www.baidu.com'
-       }, 1000)
-    },
-
-    //不成功的提示
-    notSuccessful: (code, err) => {
-      //0 成功 -6有继续操作的错误提示 -1 登录
-      switch (code) {
-        case 0:
-        case -6:
-        case -1:
-          break
-        default:
-          setTimeout(() => {
-            $this.$message(err)
-          }, 200)
-       }
-     },
-   },
-
-  //路由登录权限控制 (可以让路由不需要登录,也可跳转)false不需要验证,根据uni-app进行配置的如有报错可修改或删除。
-    accessControl: {
-      routeValidate: () => {
-        let pages = getCurrentPages() //获取加载过的路由
-        let currPage = pages[pages.length - 1] //获取当前页路由
-        switch (currPage.route) {
-          case 'pages/advisory/counselor/CounselorList':
-          case 'pages/advisory/counselor/CounselorInfo':
-           return false
-          default:
-            return true
-       }
-      }
-    }
-  })
-```
-
-##### 注意:当前 loading 使用的是 elementUi 的动画可自行修改
+> tips:以上不打\*号的不是必须配置可自行决定是否配置
