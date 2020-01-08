@@ -116,7 +116,7 @@ npm i yaoxfly-request
 | isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
 | qs| Boolean| 是否开启强专 默认是 true,选填|
 | headers | Object | 传 headers 参数 默认是 {}, 选填 当前参数只有 submitFormData 和 requests 方法可设置 最后一个参数|
-| timeout | Number | 超时时间 设置为0 无限制|
+| timeout | Number | 超时时间 默认为 0 无限制 当前参数只有 submitFormData 能设置|
 
 #### 4 request/index.js 配置说明
 
