@@ -19,18 +19,16 @@ export default {
     HelloWorld
   },
 
-  created () {
-    // this.$YxRequest
-    //   .submitFormData("http://www.ericssons.com/singular/test", {},
-    //     {
-    //       timeout: 30000,
-    //     })
-    //   .then(res => {
-    //     console.log(res);
-    //   });
+  mounted () {
+    // this.restFulTest()
   },
   methods: {
-    test (e) {
+
+    /** ajax表单提交
+   * @param  {String}  e 文件
+   * @return {Object} 返回请求结果
+   */
+    formSummitTest (e) {
       let formData = new FormData();
       formData.append("excel", e.target.files[0]); //添加文件
       // https://alexxj.mralex.cn/project/ericsson/teacher/psychologistImport
@@ -42,6 +40,16 @@ export default {
         .then(res => {
           console.log(res);
         });
+    },
+
+
+    /** restFul API 测试
+   * @param  {String}  e 文件
+   * @return {Object} 返回请求结果
+   */
+    async restFulTest () {
+      const res = await this.$YxRequest.patch('index/test', { test: "房间" })
+      console.log(res)
     }
   }
 

@@ -16,11 +16,11 @@ npm i yaoxfly-request
 
 #### 2 restFul api 请求
 
-- get 请求
+- get 请求--例子
 
 ```js
 this.$YxRequest
-  .get("test/test", { name: "1", age: "1" }, true, true)
+  .get(url, param, config)
   .then(res => {
     console.log(res);
   })
@@ -33,7 +33,7 @@ this.$YxRequest
 
 ```js
 this.$YxRequest
-  .post(url, param, isLoading, qs)
+  .post(url, param, config)
   .then(res => {
     console.log(res);
   })
@@ -46,7 +46,7 @@ this.$YxRequest
 
 ```js
 this.$YxRequest
-  .patch(url, param, isLoading, qs)
+  .patch(url, param, config)
   .then(res => {
     console.log(res);
   })
@@ -59,7 +59,7 @@ this.$YxRequest
 
 ```js
 this.$YxRequest
-  .put(url, param, isLoading, qs)
+  .put(url, param, config)
   .then(res => {
     console.log(res);
   })
@@ -72,7 +72,7 @@ this.$YxRequest
 
 ```js
 this.$YxRequest
-  .delete(url, param, isLoading, qs)
+  .delete(url, param, config)
   .then(res => {
     console.log(res);
   })
@@ -85,7 +85,7 @@ this.$YxRequest
 
 ```js
 this.$YxRequest
-  .requests(url, param, type, isLoading, qs, headers)
+  .requests(url, param, type, config)
   .then(res => {
     console.log(res);
   })
@@ -110,15 +110,20 @@ this.$YxRequest
 #### 3 方法参数说明
 
 在 this.\$YxRequest 可调用的方法的里参数说明
-| 参数 |类型| 说明 |
-|:---:| :--: | :----: |
-| url | String |api 地址 |
-| param | Object |后台 接收的参数 |
-| type| String| 请求类型 如 get post get patch 等 当前参数只有 requests 方法可设置 在第三个参数|
-| isLoading| Boolean| 当前请求是否开启 loading 默认是 true,选填|
-| qs| Boolean| 是否开启强专 默认是 true,选填|
-| headers | Object | 传 headers 参数 默认是 {}, 选填 当前参数只有 submitFormData 和 requests 方法可设置 最后一个参数|
-| timeout | Number | 超时时间 默认为 0 无限制 当前参数只有 submitFormData 能设置|
+| 参数 |类型| 说明 |是否必填|
+|:---:| :--: | :----: |:--:|
+| url | String |api 地址 | true|
+| param | Object |后台 接收的参数 |true|
+| config | Object | 扩展配置项 添加如 qs、loading 等配置|false|
+| type| String| 请求类型 如 get、post、patch、put、delete 等，当前参数只有 requests 方法可设置， 默认是 post| false |
+
+config 配置参数说明
+| 参数 |类型| 说明 |是否必填|
+|:---:| :--: | :----: |:--:|
+| loading| Boolean| 当前请求是否开启 loading 默认是 true| false|
+| qs| Boolean| 是否开启 qs 强转 默认是 true| false |
+| headers | Object | 传 headers 参数 默认是 {}, 当前参数只有 submitFormData、requests 方法可设置 |false|
+| timeout | Number | 超时时间 默认为 0 无限制 当前参数只有 submitFormData 方法 能设置|false|
 
 #### 4 request/index.js 配置说明
 
