@@ -8,15 +8,13 @@
 
 npm i yaoxfly-request
 
-#### 使用说明
-
-#### 1 插件配置
+#### 前期准备
 
 在 src(源代码)文件夹新建 request 文件夹并在里面建立 index.js 文件,参考配置方案稍后详见。
 
-#### 2 restFul api 请求
+#### restFul api 请求方法
 
-- get 请求--例子
+- get
 
 ```js
 this.$YxRequest
@@ -107,7 +105,7 @@ this.$YxRequest
 
 ```
 
-#### 3 方法参数说明
+#### 方法参数说明
 
 在 this.\$YxRequest 可调用的方法的里参数说明
 | 参数 |类型| 说明 |是否必填|
@@ -125,7 +123,7 @@ config 配置参数说明
 | headers | Object | 传 headers 参数 默认是 {}, 当前参数只有 submitFormData、requests 方法可设置 |false|
 | timeout | Number | 超时时间 默认为 0 无限制 当前参数只有 submitFormData 方法 能设置|false|
 
-#### 4 request/index.js 配置说明
+#### request/index.js 配置说明
 
 - 在 request/index.js 文件里引入 yaoxfly-request
 
