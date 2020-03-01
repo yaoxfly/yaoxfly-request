@@ -2141,7 +2141,7 @@ function () {
           });
 
           return;
-        } //fly请求必须加上传输文件headers头才可以提交请求
+        } // fly请求必须加上传输文件headers头才可以提交请求
 
 
         _this.request.request(url, params, {
