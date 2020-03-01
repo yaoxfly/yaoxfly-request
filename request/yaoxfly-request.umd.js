@@ -1980,9 +1980,13 @@ function () {
     _defineProperty(this, "requests", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "post";
-      var loading = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-      var qs = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
-      var headers = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {};
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      var _config$loading = config.loading,
+          loading = _config$loading === void 0 ? true : _config$loading,
+          _config$qs = config.qs,
+          qs = _config$qs === void 0 ? true : _config$qs,
+          _config$headers = config.headers,
+          headers = _config$headers === void 0 ? {} : _config$headers;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         if (_this.type === "axios") {
@@ -2016,8 +2020,11 @@ function () {
 
     _defineProperty(this, "get", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var _config$loading2 = config.loading,
+          loading = _config$loading2 === void 0 ? true : _config$loading2,
+          _config$qs2 = config.qs,
+          qs = _config$qs2 === void 0 ? true : _config$qs2;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         var arg = "";
@@ -2043,8 +2050,11 @@ function () {
 
     _defineProperty(this, "post", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var _config$loading3 = config.loading,
+          loading = _config$loading3 === void 0 ? true : _config$loading3,
+          _config$qs3 = config.qs,
+          qs = _config$qs3 === void 0 ? true : _config$qs3;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         _this.request.post(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
@@ -2057,8 +2067,11 @@ function () {
 
     _defineProperty(this, "put", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var _config$loading4 = config.loading,
+          loading = _config$loading4 === void 0 ? true : _config$loading4,
+          _config$qs4 = config.qs,
+          qs = _config$qs4 === void 0 ? true : _config$qs4;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         _this.request.put(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
@@ -2071,8 +2084,11 @@ function () {
 
     _defineProperty(this, "patch", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var _config$loading5 = config.loading,
+          loading = _config$loading5 === void 0 ? true : _config$loading5,
+          _config$qs5 = config.qs,
+          qs = _config$qs5 === void 0 ? true : _config$qs5;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         _this.request.patch(url, _this.qs && qs ? _this.qs.stringify(params) : params).then(function (response) {
@@ -2085,8 +2101,11 @@ function () {
 
     _defineProperty(this, "delete", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var loading = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var qs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var _config$loading6 = config.loading,
+          loading = _config$loading6 === void 0 ? true : _config$loading6,
+          _config$qs6 = config.qs,
+          qs = _config$qs6 === void 0 ? true : _config$qs6;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         var arg = "";
@@ -2113,18 +2132,12 @@ function () {
     _defineProperty(this, "submitFormData", function (url) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      // loading 是否开启loading动画
-      // headers 添加请求头--可用来传递参数
-      // timeout 超时时间，为0时则无超时限制
-      var _ref = config || {},
-          _ref$loading = _ref.loading,
-          loading = _ref$loading === void 0 ? true : _ref$loading,
-          _ref$headers = _ref.headers,
-          headers = _ref$headers === void 0 ? {} : _ref$headers,
-          _ref$timeout = _ref.timeout,
-          timeout = _ref$timeout === void 0 ? 0 : _ref$timeout;
-
+      var _config$loading7 = config.loading,
+          loading = _config$loading7 === void 0 ? true : _config$loading7,
+          _config$headers2 = config.headers,
+          headers = _config$headers2 === void 0 ? {} : _config$headers2,
+          _config$timeout = config.timeout,
+          timeout = _config$timeout === void 0 ? 0 : _config$timeout;
       _this.loading = loading;
       return new Promise(function (resolve, reject) {
         if (_this.type === "axios") {
@@ -2158,39 +2171,39 @@ function () {
       });
     });
 
-    var _ref2 = options || {},
-        _ref2$requestConfig = _ref2.requestConfig;
+    var _ref = options || {},
+        _ref$requestConfig = _ref.requestConfig;
 
-    _ref2$requestConfig = _ref2$requestConfig === void 0 ? {} : _ref2$requestConfig;
+    _ref$requestConfig = _ref$requestConfig === void 0 ? {} : _ref$requestConfig;
 
-    var request = _ref2$requestConfig.request,
-        _qs = _ref2$requestConfig.qs,
-        _headers = _ref2$requestConfig.headers,
-        _ref2$requestConfig$t = _ref2$requestConfig.timeout,
-        _timeout = _ref2$requestConfig$t === void 0 ? 30000 : _ref2$requestConfig$t,
-        baseURL = _ref2$requestConfig.baseURL,
-        _type = _ref2$requestConfig.type,
-        withCredentials = _ref2$requestConfig.withCredentials,
-        _ref2$loading = _ref2.loading;
+    var request = _ref$requestConfig.request,
+        _qs = _ref$requestConfig.qs,
+        _headers = _ref$requestConfig.headers,
+        _ref$requestConfig$ti = _ref$requestConfig.timeout,
+        _timeout = _ref$requestConfig$ti === void 0 ? 30000 : _ref$requestConfig$ti,
+        baseURL = _ref$requestConfig.baseURL,
+        _type = _ref$requestConfig.type,
+        withCredentials = _ref$requestConfig.withCredentials,
+        _ref$loading = _ref.loading;
 
-    _ref2$loading = _ref2$loading === void 0 ? {} : _ref2$loading;
-    var _ref2$loading$isLoadi = _ref2$loading.isLoading,
-        isLoading = _ref2$loading$isLoadi === void 0 ? true : _ref2$loading$isLoadi,
-        _ref2$loading$limitTi = _ref2$loading.limitTime,
-        limitTime = _ref2$loading$limitTi === void 0 ? 200 : _ref2$loading$limitTi,
-        loadingShow = _ref2$loading.loadingShow,
-        loadingHide = _ref2$loading.loadingHide,
-        _ref2$resError = _ref2.resError;
-    _ref2$resError = _ref2$resError === void 0 ? {} : _ref2$resError;
-    var key = _ref2$resError.key,
-        value = _ref2$resError.value,
-        msg = _ref2$resError.msg,
-        tipShow = _ref2$resError.tipShow,
-        notSuccessful = _ref2$resError.notSuccessful,
-        notLogin = _ref2$resError.notLogin,
-        _ref2$accessControl = _ref2.accessControl;
-    _ref2$accessControl = _ref2$accessControl === void 0 ? {} : _ref2$accessControl;
-    var routeValidate = _ref2$accessControl.routeValidate; //需要共用
+    _ref$loading = _ref$loading === void 0 ? {} : _ref$loading;
+    var _ref$loading$isLoadin = _ref$loading.isLoading,
+        isLoading = _ref$loading$isLoadin === void 0 ? true : _ref$loading$isLoadin,
+        _ref$loading$limitTim = _ref$loading.limitTime,
+        limitTime = _ref$loading$limitTim === void 0 ? 200 : _ref$loading$limitTim,
+        loadingShow = _ref$loading.loadingShow,
+        loadingHide = _ref$loading.loadingHide,
+        _ref$resError = _ref.resError;
+    _ref$resError = _ref$resError === void 0 ? {} : _ref$resError;
+    var key = _ref$resError.key,
+        value = _ref$resError.value,
+        msg = _ref$resError.msg,
+        tipShow = _ref$resError.tipShow,
+        notSuccessful = _ref$resError.notSuccessful,
+        notLogin = _ref$resError.notLogin,
+        _ref$accessControl = _ref.accessControl;
+    _ref$accessControl = _ref$accessControl === void 0 ? {} : _ref$accessControl;
+    var routeValidate = _ref$accessControl.routeValidate; //需要共用
 
     this.request = request;
     this.qs = _qs;
@@ -2226,11 +2239,11 @@ function () {
     value: function requestConfig(config) {
       var _this2 = this;
 
-      var _ref3 = config || {},
-          headers = _ref3.headers,
-          timeout = _ref3.timeout,
-          baseURL = _ref3.baseURL,
-          withCredentials = _ref3.withCredentials;
+      var _ref2 = config || {},
+          headers = _ref2.headers,
+          timeout = _ref2.timeout,
+          baseURL = _ref2.baseURL,
+          withCredentials = _ref2.withCredentials;
 
       var keyMap = {
         fly: function fly() {
@@ -2258,10 +2271,10 @@ function () {
     value: function interceptorsRequest(config) {
       var _this3 = this;
 
-      var _ref4 = config || {},
-          isLoading = _ref4.isLoading,
-          limitTime = _ref4.limitTime,
-          loadingShow = _ref4.loadingShow;
+      var _ref3 = config || {},
+          isLoading = _ref3.isLoading,
+          limitTime = _ref3.limitTime,
+          loadingShow = _ref3.loadingShow;
 
       this.request.interceptors.request.use(function (res) {
         _this3.loadingTimer = setTimeout(function () {
@@ -2276,17 +2289,17 @@ function () {
     value: function interceptorsResponse(config) {
       var _this4 = this;
 
-      var _ref5 = config || {},
-          isLoading = _ref5.isLoading,
-          limitTime = _ref5.limitTime,
-          loadingHide = _ref5.loadingHide,
-          key = _ref5.key,
-          msg = _ref5.msg,
-          value = _ref5.value,
-          tipShow = _ref5.tipShow,
-          notSuccessful = _ref5.notSuccessful,
-          notLogin = _ref5.notLogin,
-          routeValidate = _ref5.routeValidate; // // 添加响应拦截器，响应拦截器会在then/catch处理之前执行(获取数据后)
+      var _ref4 = config || {},
+          isLoading = _ref4.isLoading,
+          limitTime = _ref4.limitTime,
+          loadingHide = _ref4.loadingHide,
+          key = _ref4.key,
+          msg = _ref4.msg,
+          value = _ref4.value,
+          tipShow = _ref4.tipShow,
+          notSuccessful = _ref4.notSuccessful,
+          notLogin = _ref4.notLogin,
+          routeValidate = _ref4.routeValidate; // // 添加响应拦截器，响应拦截器会在then/catch处理之前执行(获取数据后)
 
 
       this.request.interceptors.response.use(function (response) {
@@ -2381,9 +2394,7 @@ function () {
      * @param  {String}  url api接口地址
      * @param  {Object}  params 传到后台的参数
      * @param  {String}  type 是get 还是post 请求
-     * @param  {Boolean} loading 是否开启loading动画
-     * @param  {Boolean} qs 是否开启qs转换
-     * @param  {Object}  headers 添加请求头--可用来传递参数
+     * @param  {Object}  config  配置项 里包括   loading 是否开启loading动画 qs 是否开启qs转换 headers 添加请求头--可用来传递参数
      * @return {Object} 返回请求结果
      */
 
@@ -2396,9 +2407,10 @@ _defineProperty(request_Request, "className", "YxRequest");
 
 /* harmony default export */ var lib_request = (request_Request);
 // CONCATENATED MODULE: ./lib/index.js
-
+ //注册组件
 
 lib_request.install = function (Vue) {
+  //注入组件
   Vue.mixin({
     created: function created() {
       var options = this.$options; // vue的option 方法
